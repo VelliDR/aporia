@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aporia // Çelişki ve Şiir Laboratuvarı</title>
+    
+    <!-- PWA Meta Etiketleri -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #editor {
+            transition: opacity 0.5s ease;
+        }
+        textarea::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0505] text-[#ece3e3] min-h-screen flex flex-col justify-between font-mono p-6 selection:bg-[#ff3333] selection:text-[#0a0505]">
+
+    <!-- Üst Bar: Felsefi Provokasyon ve Kısıtlamalar -->
+    <header class="max-w-3xl w-full mx-auto mb-6">
+        <div class="border border-[#331111] bg-[#140a0a] p-4 rounded-lg shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 left-0 h-1 bg-[#ff3333]" id="fade-bar" style="width: 100%;"></div>
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-xs uppercase tracking-widest text-[#883333]">Aktif Kısıtlama // Yapısöküm</span>
+                <span class="text-xs text-[#662222]" id="timer-label">Nehir akıyor...</span>
+            </div>
+            <p id="prompt-box" class="text-sm md:text-base text-[#ff6666] italic">
+                "Yazmaya başla. Durursan, nehir kelimelerini yutacak."
+            </p>
+        </div>
+    </header>
+
+    <!-- Ana Editör Alanı -->
+    <main class="flex-grow max-w-3xl w-full mx-auto flex items-center justify-center">
+        <textarea 
+            id="editor" 
+            class="w-full h-[60vh] bg-transparent border-none outline-none resize-none text-lg md:text-xl leading-relaxed text-[#ece3e3] placeholder:text-[#331a1a]"
+            placeholder="İlk kelimeyi fırlat ve akıntıya karşı yüz..."
+            spellcheck="false"
+            autofocus
+        ></textarea>
+    </main>
+
+    <!-- Alt Bar -->
+    <footer class="max-w-3xl w-full mx-auto mt-6 flex justify-between items-center border-t border-[#1a0a0a] pt-4 text-xs text-[#552222]">
+        <div>
+            <span id="char-count">0</span> karakter // <span id="word-count">0</span> kelime
+        </div>
+        <div class="flex gap-4">
+            <button 
+                id="archive-btn" 
+                class="px-3 py-1 border border-[#331111] rounded text-[#883333] hover:border-[#ff3333] hover:text-[#ff3333] transition-all"
+            >
+                Mühürlü Eserler
+            </button>
+            <button 
+                id="provoke-btn" 
+                class="px-3 py-1 border border-[#552222] rounded hover:bg-[#331111] hover:text-[#ff3333] transition-all"
+            >
+                Zihni Kışkırt
+            </button>
+        </div>
+    </footer>
+
+    <!-- GIZLI ARŞIV MODALI -->
+    <div id="archive-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+        <div class="border border-[#331111] bg-[#0c0606] max-w-2xl w-full max-h-[80vh] rounded-lg p-6 flex flex-col justify-between shadow-2xl">
+            <div class="flex justify-between items-center border-b border-[#220a0a] pb-3 mb-4">
+                <h3 class="text-sm uppercase tracking-widest text-[#ff3333]">Kurtarılan Eserler Arşivi</h3>
+                <button id="close-archive" class="text-[#883333] hover:text-[#ff3333] text-lg">&times;</button>
+            </div>
+            
+            <!-- Eserlerin Listeleneceği Alan -->
+            <div id="archive-list" class="flex-grow overflow-y-auto space-y-6 pr-2 max-h-[60vh] text-sm leading-relaxed">
+                <p class="text-[#441111] italic text-center py-8">Henüz hiçbir eser mühürlenmedi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script kök dizindeki app.js'i hedefliyor -->
+    <script src="app.js"></script>
+</body>
+</html>
