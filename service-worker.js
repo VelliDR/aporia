@@ -4,22 +4,23 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './app.js',
   './manifest.json',
-  './resim.png', // Çevrimdışı çalışabilmesi için ikonu buraya mühürledik
+  './resim.png',
   'https://cdn.tailwindcss.com'
 ];
 
-// ... (dosyanın geri kalanı tamamen aynı kalacak)
-
-// 1. Kurulum (Install) Aşaması: Varlıkları Önbelleğe Al
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
+      // addAll yerine tek tek ekleyerek hata veren dosyayı (örn: resim.png) bypass ediyoruz
+      return Promise.allSettled(
+        ASSETS_TO_CACHE.map(asset => {
+          return cache.add(asset).catch(err => console.warn(`Önbelleğe alınamadı: ${asset}`, err));
+        })
+      );
     }).then(() => self.skipWaiting())
   );
 });
 
-// 2. Aktivasyon (Activate) Aşaması: Eski Önbellekleri Temizle
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -34,11 +35,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. Yakalama (Fetch) Aşaması: Çevrimdışı Öncelikli Strateji
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      // Eğer önbellekte varsa oradan döndür, yoksa internetten iste
       if (cachedResponse) {
         return cachedResponse;
       }

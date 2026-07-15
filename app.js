@@ -8,12 +8,7 @@ const PROMPTS = [
     "Nietzsche: Maskeni düşür. Az önce yazdığın dizeyi en çok nefret ettiğin karakterin gözünden oku ve yık.",
     "Cioran: Dünyanın tüm ağırlığını tek bir kelimeye sığdırmak zorunda olsan bu ne olurdu? O kelimeyle başla.",
     "Spinoza: Doğanın mekanik tıkırtısını hisset. Duygusal tüm kelimeleri geometrik kavramlarla değiştir.",
-    "Camus: Sisyphos gibi yazıyorsun. Şimdi en iyi olduğunu düşündüğün o iki dizeyi sil ve yoluna devam et.",
-    "Sessizlik Kanunu: Sonraki cümlede hiçbir noktalama işareti kullanma.",
-    "Renk Yasağı: Siyah ve beyaz dahil hiçbir rengi anmadan bir karanlık hissi yarat.",
-    "Barthes: Yazar öldü. Şimdi bu metne tamamen yabancı, üçüncü bir şahsın gözünden soğuk bir gözlem ekle.",
-    "Zaman Aşımı: Son yazdığın kelimeyi bir sonraki cümlenin de sonuna koymak zorundasın.",
-    "Bedensel Odak: Karakterin sadece fiziksel duyularına (soğuk metal, genizdeki toz) odaklan, iç sesini kapat."
+    "Camus: Sisyphos gibi yazıyorsun. Şimdi en iyi olduğunu düşündüğün o iki dizeyi sil ve yoluna devam et."
 ];
 
 class AporiaEngine {
@@ -26,7 +21,6 @@ class AporiaEngine {
         this.charCount = document.getElementById('char-count');
         this.wordCount = document.getElementById('word-count');
         
-        // Arşiv Elemanları
         this.archiveBtn = document.getElementById('archive-btn');
         this.archiveModal = document.getElementById('archive-modal');
         this.closeArchive = document.getElementById('close-archive');
@@ -44,8 +38,6 @@ class AporiaEngine {
     init() {
         this.editor.addEventListener('input', () => this.onInput(false));
         this.provokeBtn.addEventListener('click', () => this.provoke());
-        
-        // Arşiv Butonları Dinleyicileri
         this.archiveBtn.addEventListener('click', () => this.openArchiveModal());
         this.closeArchive.addEventListener('click', () => this.closeArchiveModal());
 
@@ -59,7 +51,6 @@ class AporiaEngine {
 
         if (savedDraft && lastActive > 0) {
             const elapsedSeconds = (Date.now() - lastActive) / 1000;
-
             if (elapsedSeconds >= this.maxIdle) {
                 this.wipeEntirely("Sen yokken nehir yatağı değişti ve kelimelerin sulara gömüldü.");
             } else {
@@ -72,18 +63,14 @@ class AporiaEngine {
 
     onInput(isRestore = false) {
         this.enforcePunctuationRules();
-
         const text = this.editor.value;
-        const isSpamming = this.checkSpam(text);
 
-        if (isSpamming) {
+        if (this.checkSpam(text)) {
             this.wipeEntirely("Spam algılandı! Nehir sahte kelimeleri anında yuttu.");
             return;
         }
 
-        if (!isRestore) {
-            this.idleTime = 0;
-        }
+        if (!isRestore) this.idleTime = 0;
 
         this.opacity = 1.0;
         this.editor.style.opacity = 1.0;
@@ -145,21 +132,8 @@ class AporiaEngine {
 
         for (const word of words) {
             if (word.length > 4) {
-                if (!vowels.test(word)) {
+                if (!vowels.test(word) || keyboardSmash.test(word) || /(.)\1{3,}/.test(word) || /[bcçdfgğhjklmnprsştvyzBCÇDFGĞHJKLMNPRSŞTVYZ]{5,}/.test(word)) {
                     spamScore++;
-                    continue;
-                }
-                if (keyboardSmash.test(word)) {
-                    spamScore++;
-                    continue;
-                }
-                if (/(.)\1{3,}/.test(word)) {
-                    spamScore++;
-                    continue;
-                }
-                if (/[bcçdfgğhjklmnprsştvyzBCÇDFGĞHJKLMNPRSŞTVYZ]{5,}/.test(word)) {
-                    spamScore++;
-                    continue;
                 }
             }
         }
@@ -218,7 +192,6 @@ class AporiaEngine {
 
         this.timerLabel.innerText = `[${count}. Kelime Mühürlendi. Nehir bu parçaya dokunamaz.]`;
         this.timerLabel.style.color = "#00ff66";
-        
         this.idleTime = -1; 
     }
 
@@ -250,7 +223,6 @@ class AporiaEngine {
         this.timerLabel.style.color = "#00ff66";
     }
 
-    // ARŞİV MODAL YÖNETİMİ
     openArchiveModal() {
         this.renderArchive();
         this.archiveModal.classList.remove('hidden');
@@ -269,12 +241,9 @@ class AporiaEngine {
             return;
         }
 
-        // En yeni mühürlenen eseri en üstte göster
         sealedWorks.reverse().forEach(work => {
             const card = document.createElement('div');
             card.className = "border border-[#1a0a0a] bg-[#080404] p-4 rounded-md space-y-3";
-            
-            // Satır sonlarını (<br>) koruyarak şiiri ekranda düzgün gösterelim
             const formattedContent = work.content.replace(/\n/g, '<br>');
 
             card.innerHTML = `
@@ -298,16 +267,15 @@ class AporiaEngine {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    new AporiaEngine();
-    // Service Worker Kayıt Kodları (PWA için)
-// Service Worker Kayıt Kodları (GitHub Pages Uyumlu)
+// GitHub Pages Uyumlu Service Worker Kaydı
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // "./service-worker.js" yerine doğrudan bulunulan klasör kapsamını veriyoruz
         navigator.serviceWorker.register('service-worker.js', { scope: './' })
-            .then((reg) => console.log('Aporia Çevrimdışı Muhafızı devrede.', reg.scope))
-            .catch((err) => console.log('Muhafız uyandırılamadı:', err));
+            .then((reg) => console.log('Aporia Muhafızı devrede.', reg.scope))
+            .catch((err) => console.log('Muhafız hatası:', err));
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    new AporiaEngine();
 });
