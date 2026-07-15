@@ -4,8 +4,11 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './app.js',
   './manifest.json',
-  'https://cdn.tailwindcss.com' // Tailwind CDN'ini de lokal belleğe alıyoruz
+  './resim.png', // Çevrimdışı çalışabilmesi için ikonu buraya mühürledik
+  'https://cdn.tailwindcss.com'
 ];
+
+// ... (dosyanın geri kalanı tamamen aynı kalacak)
 
 // 1. Kurulum (Install) Aşaması: Varlıkları Önbelleğe Al
 self.addEventListener('install', (event) => {
