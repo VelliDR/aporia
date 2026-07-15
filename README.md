@@ -6,15 +6,6 @@
 
 Sıradan editörlerin o steril, konforlu ve yapay olarak korumacı yapısına bir başkaldırıdır. Yazarı otosansürden, ucuz romantizmden ve klişelerin sıcaklığından arındırmak; onu sadece o anki ham duyguyla, kesintisiz ve cesurca yazmaya zorlamak için tasarlanmıştır.
 
----
-
-## 📸 Ekran Görüntüsü
-
-![Aporia Arayüzü](https://raw.githubusercontent.com/KULLANICI_ADIN/aporia/main/screenshot.png) 
-*(Görseli ekledikten sonra burayı güncelleyebilirsin)*
-
----
-
 ## 🧠 Felsefi Çekirdek ve Kurallar
 
 Aporia, gücünü üç temel felsefi akımın fiziksel kod sınırlarından alır:
