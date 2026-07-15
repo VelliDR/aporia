@@ -301,9 +301,11 @@ class AporiaEngine {
 document.addEventListener('DOMContentLoaded', () => {
     new AporiaEngine();
     // Service Worker Kayıt Kodları (PWA için)
+// Service Worker Kayıt Kodları (GitHub Pages Uyumlu)
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
+        // "./service-worker.js" yerine doğrudan bulunulan klasör kapsamını veriyoruz
+        navigator.serviceWorker.register('service-worker.js', { scope: './' })
             .then((reg) => console.log('Aporia Çevrimdışı Muhafızı devrede.', reg.scope))
             .catch((err) => console.log('Muhafız uyandırılamadı:', err));
     });
