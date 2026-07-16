@@ -20,10 +20,9 @@ Aporia, gücünü üç temel felsefi akımın fiziksel kod sınırlarından alı
 
 Aporia, edebi bir gardiyan gibi çalışır ve yazarı şu mekaniklerle disipline eder:
 
-* **⏳ 17 Saniyelik Mutlak Zaman Koridoru:** Yazmayı durdurduğun an geri sayım çubuğu erir. Süre dolduğunda metin tamamen silinir. Sayfa yenilendiğinde, fiziksel olarak geçen süre hesaplanır ve nehir kaldığı saniyeden akmaya devam eder.
+* **⏳ 7 Saniyelik Mutlak Zaman Koridoru:** Yazmayı durdurduğun an geri sayım çubuğu erir. Süre dolduğunda metin tamamen silinir. Sayfa yenilendiğinde, fiziksel olarak geçen süre hesaplanır ve nehir kaldığı saniyeden akmaya devam eder.
 * **🚫 Tavizsiz Spam Muhafızı:** Sistemi kandırmak için klavyeye rastgele abanan (`asdasd`, `qwerty`, `sssss` vb.) veya Türkçe fonetik yapısına aykırı sessiz harf yığınları yazan hilekarları anında tespit eder ve tek bir piksel bile bırakmadan **tüm ekranı milisaniyeler içinde temizler**.
-* **⚓ 33 Kelimelik Güvenli Liman (Auto-Save):** Anlamlı ve dürüst bir akışla yazılan her 33 kelimede bir, o ana kadarki metin `localStorage` üzerine zaman damgasıyla bir "kurtarılmış parça" olarak mühürlenir.
-* **🔏 "BİTTİ" Mührü ve Mistik Arşiv:** Eserini tamamladığında, yeni bir satıra büyük harflerle `BİTTİ` yazarak teslimiyetini beyan edersin. Sistem bu kelimeyi otomatik temizler, eseri kalıcı olarak mühürler, yerel arşive kaldırır ve yazım alanını sıfırlar.
+* **⚓ 50 Kelimelik Güvenli Liman (Auto-Save):** Anlamlı ve dürüst bir akışla yazılan  50 kelimede , o ana kadarki metin `localStorage` üzerine zaman damgasıyla bir "kurtarılmış parça" olarak mühürlenme şansı verir.
 * **📁 Çevrimdışı Kurtarılan Eserler Arşivi:** Ekranın altındaki şık panel sayesinde, mühürlediğin tüm eski şiirlere internete ihtiyaç duymadan erişebilir, tarihleriyle görebilir ve tek tıkla panoya kopyalayabilirsin.
 
 ---
