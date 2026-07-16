@@ -14,24 +14,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         #editor {
-            transition: opacity 0.5s ease;
+            transition: opacity 0.3s ease; /* 7 saniyede daha agresif bir solma geçişi */
         }
         textarea::-webkit-scrollbar {
             display: none;
         }
     </style>
 </head>
-<body class="bg-[#0a0505] text-[#ece3e3] min-h-screen flex flex-col justify-between font-mono p-6 selection:bg-[#ff3333] selection:text-[#0a0505]">
+< class="bg-[#0a0505] text-[#ece3e3] min-h-screen flex flex-col justify-between font-mono p-6 selection:bg-[#ff3333] selection:text-[#0a0505]">
 
     <header class="max-w-3xl w-full mx-auto mb-6">
         <div class="border border-[#331111] bg-[#140a0a] p-4 rounded-lg shadow-lg relative overflow-hidden">
             <div class="absolute top-0 left-0 h-1 bg-[#ff3333]" id="fade-bar" style="width: 100%;"></div>
             <div class="flex justify-between items-center mb-2">
-                <span class="text-xs uppercase tracking-widest text-[#883333]">Aktif Kısıtlama // Yapısöküm</span>
-                <span class="text-xs text-[#662222]" id="timer-label">Nehir akıyor...</span>
+                <span class="text-xs uppercase tracking-widest text-[#883333]">Aktif Kısıtlama // 7s Akış Hücresi</span>
+                <span class="text-xs text-[#662222]" id="timer-label">Zaman sızıyor...</span>
             </div>
             <p id="prompt-box" class="text-sm md:text-base text-[#ff6666] italic">
-                "Yazmaya başla. Durursan, nehir kelimelerini yutacak."
+                "Yazmaya başla. 7 saniye durursan nehir her şeyi yutacak."
             </p>
         </div>
     </header>
@@ -54,8 +54,9 @@
             <button 
                 id="archive-btn" 
                 class="px-3 py-1 border border-[#331111] rounded text-[#883333] hover:border-[#ff3333] hover:text-[#ff3333] transition-all"
+                title="Sadece bu cihazda saklanır, asla dışarı sızmaz"
             >
-                Mühürlü Eserler
+                Yerel Arşiv 🔒
             </button>
             <button 
                 id="provoke-btn" 
@@ -66,12 +67,15 @@
         </div>
     </footer>
 
-    <!-- Arşiv Modali -->
-    <div id="archive-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
+    <!-- Arşiv Modali (Lokal Saklama Bilgilendirmeli) -->
+    <div id="archive-modal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-4">
         <div class="border border-[#331111] bg-[#0c0606] max-w-2xl w-full max-h-[80vh] rounded-lg p-6 flex flex-col justify-between shadow-2xl">
             <div class="flex justify-between items-center border-b border-[#220a0a] pb-3 mb-4">
-                <h3 class="text-sm uppercase tracking-widest text-[#ff3333]">Kurtarılan Eserler Arşivi</h3>
-                <button id="close-archive" class="text-[#883333] hover:text-[#ff3333] text-lg">&times;</button>
+                <div>
+                    <h3 class="text-sm uppercase tracking-widest text-[#ff3333] font-bold">Mühürlü Eserler</h3>
+                    <p class="text-[10px] text-[#552222] lowercase mt-0.5">veriler tamamen bu tarayıcıda saklanır, buluta sızmaz.</p>
+                </div>
+                <button id="close-archive" class="text-[#883333] hover:text-[#ff3333] text-2xl">&times;</button>
             </div>
             <div id="archive-list" class="flex-grow overflow-y-auto space-y-6 pr-2 max-h-[60vh] text-sm leading-relaxed">
                 <p class="text-[#441111] italic text-center py-8">Henüz hiçbir eser mühürlenmedi.</p>
@@ -79,6 +83,24 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="./js/main.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+                    .catch((err) => console.warn('Muhafız devreye alınamadı:', err));
+            });
+        }
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+                .then((reg) => console.log('Aporia Muhafızı devrede. Kapsam:', reg.scope))
+                .catch((err) => console.warn('Muhafız devreye alınamadı:', err));
+        });
+    }
+</script>
 </body>
 </html>

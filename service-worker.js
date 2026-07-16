@@ -1,22 +1,16 @@
-const CACHE_NAME = 'aporia-v1';
+const CACHE_NAME = 'aporia-v2'; // Versiyonu artırdık ki eskisini silsin
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './app.js',
   './manifest.json',
-  './resim.png',
   'https://cdn.tailwindcss.com'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // addAll yerine tek tek ekleyerek hata veren dosyayı (örn: resim.png) bypass ediyoruz
-      return Promise.allSettled(
-        ASSETS_TO_CACHE.map(asset => {
-          return cache.add(asset).catch(err => console.warn(`Önbelleğe alınamadı: ${asset}`, err));
-        })
-      );
+      return Promise.allSettled(ASSETS_TO_CACHE.map(asset => cache.add(asset)));
     }).then(() => self.skipWaiting())
   );
 });
@@ -27,7 +21,7 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            return caches.delete(cache);
+            return caches.delete(cache); // Eski cache'i acımasızca yok et
           }
         })
       );
@@ -35,13 +29,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Network-First Stratejisi: Önce internetteki YENİ koda bak, yoksa (offline isen) cache'i kullan.
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request);
-    })
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
