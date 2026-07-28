@@ -2,35 +2,30 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Aporia // Çelişki ve Şiir Laboratuvarı</title>
-    
-    <!-- PWA Meta Etiketleri -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0505">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        #editor {
-            transition: opacity 0.3s ease; /* 7 saniyede daha agresif bir solma geçişi */
-        }
-        textarea::-webkit-scrollbar {
-            display: none;
-        }
+        body { background-color: #0a0505; color: #ece3e3; font-family: monospace; }
+        #editor { transition: opacity 0.2s ease; }
+        textarea::-webkit-scrollbar { display: none; }
+        * { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
-< class="bg-[#0a0505] text-[#ece3e3] min-h-screen flex flex-col justify-between font-mono p-6 selection:bg-[#ff3333] selection:text-[#0a0505]">
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-6 selection:bg-[#ff3333] selection:text-[#0a0505]">
 
-    <header class="max-w-3xl w-full mx-auto mb-6">
+    <header class="max-w-3xl w-full mx-auto mb-4 md:mb-6">
         <div class="border border-[#331111] bg-[#140a0a] p-4 rounded-lg shadow-lg relative overflow-hidden">
             <div class="absolute top-0 left-0 h-1 bg-[#ff3333]" id="fade-bar" style="width: 100%;"></div>
             <div class="flex justify-between items-center mb-2">
-                <span class="text-xs uppercase tracking-widest text-[#883333]">Aktif Kısıtlama // 7s Akış Hücresi</span>
-                <span class="text-xs text-[#662222]" id="timer-label">Zaman sızıyor...</span>
+                <span class="text-[10px] md:text-xs uppercase tracking-widest text-[#883333]">Aktif Kısıtlama // 7s Akış Hücresi</span>
+                <span class="text-[10px] md:text-xs text-[#662222]" id="timer-label">Zaman sızıyor...</span>
             </div>
-            <p id="prompt-box" class="text-sm md:text-base text-[#ff6666] italic">
+            <p id="prompt-box" class="text-xs md:text-base text-[#ff6666] italic leading-snug">
                 "Yazmaya başla. 7 saniye durursan nehir her şeyi yutacak."
             </p>
         </div>
@@ -39,68 +34,62 @@
     <main class="flex-grow max-w-3xl w-full mx-auto flex items-center justify-center">
         <textarea 
             id="editor" 
-            class="w-full h-[60vh] bg-transparent border-none outline-none resize-none text-lg md:text-xl leading-relaxed text-[#ece3e3] placeholder:text-[#331a1a]"
+            class="w-full h-[55vh] md:h-[60vh] bg-transparent border-none outline-none resize-none text-base md:text-xl leading-relaxed text-[#ece3e3] placeholder:text-[#331a1a]"
             placeholder="İlk kelimeyi fırlat ve akıntıya karşı yüz..."
             spellcheck="false"
             autofocus
         ></textarea>
     </main>
 
-    <footer class="max-w-3xl w-full mx-auto mt-6 flex justify-between items-center border-t border-[#1a0a0a] pt-4 text-xs text-[#552222]">
+    <footer class="max-w-3xl w-full mx-auto mt-4 md:mt-6 flex justify-between items-center border-t border-[#1a0a0a] pt-4 text-[11px] md:text-xs text-[#552222]">
         <div>
             <span id="char-count">0</span> karakter // <span id="word-count">0</span> kelime
         </div>
-        <div class="flex gap-4">
+        <div class="flex gap-2 md:gap-4">
             <button 
                 id="archive-btn" 
-                class="px-3 py-1 border border-[#331111] rounded text-[#883333] hover:border-[#ff3333] hover:text-[#ff3333] transition-all"
+                class="px-2.5 py-1 border border-[#331111] rounded text-[#883333] hover:border-[#ff3333] hover:text-[#ff3333] transition-all"
                 title="Sadece bu cihazda saklanır, asla dışarı sızmaz"
             >
                 Yerel Arşiv 🔒
             </button>
             <button 
                 id="provoke-btn" 
-                class="px-3 py-1 border border-[#552222] rounded hover:bg-[#331111] hover:text-[#ff3333] transition-all"
+                class="px-2.5 py-1 border border-[#552222] rounded hover:bg-[#331111] hover:text-[#ff3333] transition-all"
             >
                 Zihni Kışkırt
             </button>
         </div>
     </footer>
 
-    <!-- Arşiv Modali (Lokal Saklama Bilgilendirmeli) -->
+    <!-- Arşiv Modalı -->
     <div id="archive-modal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-4">
-        <div class="border border-[#331111] bg-[#0c0606] max-w-2xl w-full max-h-[80vh] rounded-lg p-6 flex flex-col justify-between shadow-2xl">
+        <div class="border border-[#331111] bg-[#0c0606] max-w-2xl w-full max-h-[80vh] rounded-lg p-4 md:p-6 flex flex-col justify-between shadow-2xl">
             <div class="flex justify-between items-center border-b border-[#220a0a] pb-3 mb-4">
                 <div>
-                    <h3 class="text-sm uppercase tracking-widest text-[#ff3333] font-bold">Mühürlü Eserler</h3>
+                    <h3 class="text-xs md:text-sm uppercase tracking-widest text-[#ff3333] font-bold">Mühürlü Eserler</h3>
                     <p class="text-[10px] text-[#552222] lowercase mt-0.5">veriler tamamen bu tarayıcıda saklanır, buluta sızmaz.</p>
                 </div>
-                <button id="close-archive" class="text-[#883333] hover:text-[#ff3333] text-2xl">&times;</button>
+                <button id="close-archive" class="text-[#883333] hover:text-[#ff3333] text-2xl leading-none">&times;</button>
             </div>
-            <div id="archive-list" class="flex-grow overflow-y-auto space-y-6 pr-2 max-h-[60vh] text-sm leading-relaxed">
+            <div id="archive-list" class="flex-grow overflow-y-auto space-y-4 pr-1 max-h-[60vh] text-xs md:text-sm leading-relaxed">
                 <p class="text-[#441111] italic text-center py-8">Henüz hiçbir eser mühürlenmedi.</p>
             </div>
         </div>
     </div>
 
-    <script type="module" src="./js/main.js"></script>
+    <!-- Modüler JS Yükleme -->
+    <script type="module" src="./main.js"></script>
 
+    <!-- Service Worker Kaydı -->
     <script>
-        if ('serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js', { scope: './' })
-                    .catch((err) => console.warn('Muhafız devreye alınamadı:', err));
+                navigator.serviceWorker.register('./sw.js')
+                    .then((reg) => console.log('Aporia SW aktif:', reg.scope))
+                    .catch((err) => console.warn('SW Hatası:', err));
             });
         }
     </script>
-    <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./service-worker.js', { scope: './' })
-                .then((reg) => console.log('Aporia Muhafızı devrede. Kapsam:', reg.scope))
-                .catch((err) => console.warn('Muhafız devreye alınamadı:', err));
-        });
-    }
-</script>
 </body>
 </html>

@@ -1,21 +1,28 @@
 {
+  "id": "aporia-pwa",
   "name": "Aporia // Çelişki ve Şiir Laboratuvarı",
   "short_name": "Aporia",
+  "description": "7 saniyelik kısıtlamaya dayalı çevrimdışı şiir ve metin laboratuvarı.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0a0505",
   "theme_color": "#0a0505",
   "orientation": "portrait",
+  "lang": "tr",
+  "categories": ["utilities", "productivity"],
   "icons": [
     {
       "src": "resim.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "resim.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
