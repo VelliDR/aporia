@@ -10,7 +10,6 @@
   "theme_color": "#0a0505",
   "orientation": "portrait",
   "lang": "tr",
-  "categories": ["utilities", "productivity"],
   "icons": [
     {
       "src": "resim.png",
