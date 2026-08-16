@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aporia-v4';
+const CACHE_NAME = 'aporia-v5';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -8,6 +8,8 @@ const ASSETS_TO_CACHE = [
   './SpamGuard.js',
   './Storage.js',
   './manifest.json',
+  './resim.png',
+  './resim-192.png',
   'https://cdn.tailwindcss.com'
 ];
 
